@@ -1,4 +1,4 @@
-# Docker_K8s
+# Docker K8s
 
 
 ## Getting Started
@@ -10,6 +10,7 @@
 - run 
 ```
 docker build .
+docker build -t <my_image_name> .
 ```
 
 - get the image id
@@ -17,6 +18,7 @@ docker build .
 - run 
 ```
 docker run -p 3000:3000 <image_id>
+docker run --name <custom_container_name> -p 3000:3000 <image_id>
 ```
 
 - visit http://localhost:3000. The container is now running a web app.
