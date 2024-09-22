@@ -2,7 +2,7 @@
 
 **IMPORTANT** : the *Dockerfile* is a "blueprint" for creating an image.
 
-## Useful commands
+## Core Building Blocks
 
 ### Images
 
@@ -106,3 +106,29 @@ docker rename my_container my_new_container
 docker cp my_local_folfer/. my_container:/inside_container_folder
 docker cp my_container:/inside_container_folder my_folfer
 ```
+
+
+## Volumes
+
+### Data Categories
+
+- **Application** : 
+    - added to image at build phase
+    - stored in images
+    - read-only : can't be changed once image is built
+
+- **Temporary App Data** : 
+    - produced in running container
+    - stored in containers (in memory or temporary files)
+    - read-write (dynamic and changing, cleared regularly)
+    - lost when container stops ???
+
+- **Permanent App Data** : 
+    - produced in running container
+    - stored in files or in a database
+    - read-write
+    - not lost when container stops and even the removal of a container
+    - stored using **volumes**
+
+
+## Networks
