@@ -1,5 +1,7 @@
 # Docker K8s
 
+**IMPORTANT** : the *Dockerfile* is a "blueprint" for creating an image.
+
 ## Useful commands
 
 ### Images
@@ -7,7 +9,7 @@
 - create an image based on a *Dockerfile*
 ```
 docker build .
-docker build -t <my_image_name> .
+docker build -t <my_image_name>:<my_tag> .
 ```
 
 - rename image
@@ -30,6 +32,11 @@ docker rmi <image_id>
 docker image prune
 ```
 
+- inspect image
+```
+docker image inspect <image_id>
+```
+
 ### Containers
 **IMPORTANT** : the command *docker run* creates a **new container** based on an **image**.
 
@@ -42,7 +49,7 @@ docker run --name <custom_container_name> -p 3000:3000 <image_id>
 
 - create a container in **detach** mode
 ```
-docker run *-d* <image_id>
+docker run -d <image_id>
 ```
 
 - attach to a container running in **detach** mode
@@ -54,12 +61,12 @@ docker attach <container_id>
 
 - create a container in **iteractive** mode
 ```
-docker run *-it* <image_id>
+docker run -it <image_id>
 ```
 
 - create a container that is automatically removed when stopped
 ```
-docker run *--rm* <image_id>
+docker run --rm <image_id>
 ```
 
 - start the container
@@ -90,4 +97,12 @@ docker container prune
 - rename container
 ```
 docker rename my_container my_new_container
+```
+
+- copy folder to and from a container. 
+**Note** : *inside_container_folder* is created if not existing
+**Note** : container name should be followed by a semi column :
+```
+docker cp my_local_folfer/. my_container:/inside_container_folder
+docker cp my_container:/inside_container_folder my_folfer
 ```
