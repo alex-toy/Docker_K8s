@@ -10,6 +10,11 @@ docker build .
 docker build -t <my_image_name> .
 ```
 
+- rename image
+```
+docker image tag <image_id> <new_name>
+```
+
 - list images
 ```
 docker images
@@ -20,6 +25,11 @@ docker images
 docker rmi <image_id>
 ```
 
+- remove all unused images at once
+```
+docker image prune
+```
+
 ### Containers
 **IMPORTANT** : the command *docker run* creates a **new container** based on an **image**.
 
@@ -28,52 +38,38 @@ docker rmi <image_id>
 docker run --name <custom_container_name> -p 3000:3000 <image_id>
 ```
 
+**IMPORTANT** : **attach** mode means you receive output from the container in the console. You cannot provide input into the container.
+
 - create a container in **detach** mode
 ```
-docker run --name <custom_container_name> -d -p 3000:3000 <image_id>
+docker run *-d* <image_id>
 ```
 
-- attach a container in **detach** mode
+- attach to a container running in **detach** mode
 ```
 docker attach <container_id>
 ```
 
-- stop the container
-```
-docker stop <container_id>
-```
+**IMPORTANT** : **iteractive** mode means you can provide input to the container from the console.
 
-- remove the container
+- create a container in **iteractive** mode
 ```
-docker rm <container_id>
+docker run *-it* <image_id>
 ```
 
-
-## Node Project
-
-### Node App
-
-- cd into *node_app*
-
-- create an image based on a *Dockerfile*
+- create a container that is automatically removed when stopped
 ```
-docker build .
-docker build -t <my_image_name> .
+docker run *--rm* <image_id>
 ```
 
-- get the image id
-
-- **IMPORTANT** : the command *docker run* creates a **new container** based on an **image**
+- start the container
 ```
-docker run -p 3000:3000 <image_id>
-docker run --name <custom_container_name> -p 3000:3000 <image_id>
+docker start <container_id>
 ```
 
-- visit http://localhost:3000. The container is now running a web app.
-
-- get the id of the container
+- start the container in **attach** mode
 ```
-docker ps
+docker start -a <container_id>
 ```
 
 - stop the container
@@ -86,6 +82,12 @@ docker stop <container_id>
 docker rm <container_id>
 ```
 
+- remove all stopped containers at once
+```
+docker container prune
+```
 
-
-
+- rename container
+```
+docker rename my_container my_new_container
+```
