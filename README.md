@@ -108,7 +108,14 @@ docker cp my_container:/inside_container_folder my_folfer
 ```
 
 
-## Volumes
+## External Storage
+
+Volumes are folders on the host machine hard drive that are mounted (mapped) into containers. They connect a folder inside a container to a folder outside the container. A container can read / write data from a volume. Volumes persist if a container is dropped.
+
+There are two types of external data storage :
+
+- **Volumes** : managed by docker (docker sets up a path on the hosts machine, unknown to the developper).
+- **Bind Mounts** : managed by developper.
 
 ### Data Categories
 
@@ -130,5 +137,56 @@ docker cp my_container:/inside_container_folder my_folfer
     - not lost when container stops and even the removal of a container
     - stored using **volumes**
 
+### Volumes
+
+Volumes are great for data which should be persistent byt which you don't need to edit directly.
+
+- list all volumes
+```
+docker volume ls
+```
+
+- remove all unused volumes
+```
+docker volume prune
+```
+
+#### Anonymous Volumes
+Always deleted when container is dropped. Can be created inside Dockerfile with the **VOLUME** instruction.
+```
+VOLUME ["/path/to/folder/inside/container"]
+```
+
+- remove anonymous volume
+```
+docker volume rm volume_id
+```
+
+#### Named Volumes
+Created when running a container. They are not attached to a container!!
+
+add a named volume to a container :
+```
+docker run -v volume_name:/app/path/to/volume image_id 
+```
+
+### Bind Mounts
+
+They are great for persistent and editable data, for example the **source code**. They are created when running a container
+
+- add a bind mount to a container :
+```
+docker run -v "/path/to/source/code:/app_folder" image_id 
+```
+
+- shortcuts macOS / Linux: 
+```
+-v $(pwd):/app
+```
+
+- shortcuts windows
+```
+-v "%cd%":/app
+```
 
 ## Networks

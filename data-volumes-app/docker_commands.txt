@@ -1,0 +1,7 @@
+docker build -t feedback_node .
+
+docker run -p 3000:80 --name feedback_app -d --rm -v feedback_volume:/app/feedback feedback_node
+
+docker run -p 3000:80 --name feedback_app -d --rm -v feedback_volume:/app/feedback -v "C:\source\Devops\Docker_K8s\data-volumes-app:/app" -v /app/node_modules feedback_node
+
+
