@@ -99,6 +99,11 @@ docker container prune
 docker rename my_container my_new_container
 ```
 
+- debug a running container
+```
+docker logs <container_id>
+```
+
 - copy folder to and from a container. 
 **Note** : *inside_container_folder* is created if not existing
 **Note** : container name should be followed by a semi column :
@@ -146,37 +151,58 @@ Volumes are great for data which should be persistent byt which you don't need t
 docker volume ls
 ```
 
+- remove volume
+```
+docker volume rm volume_id
+```
+
 - remove all unused volumes
 ```
 docker volume prune
 ```
 
 #### Anonymous Volumes
-Always deleted when container is dropped. Can be created inside Dockerfile with the **VOLUME** instruction.
-```
-VOLUME ["/path/to/folder/inside/container"]
-```
+- created specifically for a single container -> cannot be shared accross containers
 
-- remove anonymous volume
-```
-docker volume rm volume_id
-```
+- **Always deleted when container is dropped**, but survives when container is stopped then restarted
+
+- can be created in two ways :
+
+    - inside Dockerfile with the **VOLUME** instruction.
+    ```
+    VOLUME ["/path/to/volume"]
+    ```
+
+    - in the run command
+    ```
+    docker run -v /path/to/volume image_id
+    ```
 
 #### Named Volumes
-Created when running a container. They are not attached to a container!!
+- not tied to a specific container -> used to share data accross containers
 
-add a named volume to a container :
+- **not deleted after the container is dropped** -> can be reused for the same container accross restarts
+
+- created when running a container :
 ```
 docker run -v volume_name:/app/path/to/volume image_id 
 ```
 
 ### Bind Mounts
+They are great for persistent and editable data, for example the **source code**
 
-They are great for persistent and editable data, for example the **source code**. They are created when running a container
+- not tied to a specific container -> can be shared accross containers
 
-- add a bind mount to a container :
+- can be reused for the same container accross restarts
+
+- created when running a container :
 ```
-docker run -v "/path/to/source/code:/app_folder" image_id 
+docker run -v "/path/to/source/code:/app" image_id 
+```
+
+- **IMPORTANT** : in order to not override files such as *node_modules*, you need to add an *anonymous volume* to *node_modules*
+```
+docker run -v "/path/to/source/code:/app" -v /path/to/node_modules image_id 
 ```
 
 - shortcuts macOS / Linux: 
@@ -187,6 +213,11 @@ docker run -v "/path/to/source/code:/app_folder" image_id
 - shortcuts windows
 ```
 -v "%cd%":/app
+```
+
+- shortcuts powershell
+```
+-v ${pwd}:/app
 ```
 
 ## Networks
