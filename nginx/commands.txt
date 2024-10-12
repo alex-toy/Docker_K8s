@@ -1,0 +1,13 @@
+docker pull nginx
+
+docker exec -it nginx_server /bin/bash
+
+docker cp nginx/. nginx_server:/etc/nginx
+
+
+# NGINX 
+apt update
+apt install nano
+nginx -s reload
+
+chmod u-wx,g-wxr,o-wx nginx_backup.conf

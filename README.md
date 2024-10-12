@@ -107,9 +107,14 @@ docker logs container_id
 docker exec -d container_id ls
 ```
 
+- run commands on a running container
+```
+docker exec -it container_id /bin/bash
+```
+
 - copy folder to and from a container. 
 **Note** : *inside_container_folder* is created if not existing
-**Note** : container name should be followed by a semi column :
+**Note** : container name should be followed by a semi column *:*
 ```
 docker cp my_local_folfer/. my_container:/inside_container_folder
 docker cp my_container:/inside_container_folder my_folfer
