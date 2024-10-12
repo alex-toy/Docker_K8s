@@ -1,0 +1,7 @@
+docker build -t network_app .
+
+docker network create my_network
+
+docker run --name network_app --network my_network -e PORT=3000 -p 3000:3000 -v ${pwd}:/app -v /app/node_modules network_app 
+
+docker run -d --name mongodb --network my_network mongo

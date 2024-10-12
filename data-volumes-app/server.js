@@ -44,4 +44,5 @@ app.post('/create', async (req, res) => {
   });
 });
 
-app.listen(80);
+// PORT comes from the dockerfile with the ENV instruction
+app.listen(process.env.PORT);

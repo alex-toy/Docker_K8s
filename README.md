@@ -9,12 +9,12 @@
 - create an image based on a *Dockerfile*
 ```
 docker build .
-docker build -t <my_image_name>:<my_tag> .
+docker build -t my_image_name:my_tag .
 ```
 
 - rename image
 ```
-docker image tag <image_id> <new_name>
+docker image tag image_id new_name
 ```
 
 - list images
@@ -24,7 +24,7 @@ docker images
 
 - remove image
 ```
-docker rmi <image_id>
+docker rmi image_id
 ```
 
 - remove all unused images at once
@@ -34,7 +34,8 @@ docker image prune
 
 - inspect image
 ```
-docker image inspect <image_id>
+docker image inspect image_id
+docker history image_id
 ```
 
 ### Containers
@@ -101,7 +102,9 @@ docker rename my_container my_new_container
 
 - debug a running container
 ```
-docker logs <container_id>
+docker container inspect container_id
+docker logs container_id
+docker exec -d container_id ls
 ```
 
 - copy folder to and from a container. 
@@ -144,11 +147,12 @@ There are two types of external data storage :
 
 ### Volumes
 
-Volumes are great for data which should be persistent byt which you don't need to edit directly.
+Volumes are great for data which should be persistent byt which you don't need to edit directly. By default, they are **read/write** for the container.
 
-- list all volumes
+- debug volumes
 ```
 docker volume ls
+docker volume inspect volume_id
 ```
 
 - remove volume
@@ -175,7 +179,7 @@ docker volume prune
 
     - in the run command
     ```
-    docker run -v /path/to/volume image_id
+    docker run -v /in/docker/path/to/volume image_id
     ```
 
 #### Named Volumes
@@ -185,7 +189,7 @@ docker volume prune
 
 - created when running a container :
 ```
-docker run -v volume_name:/app/path/to/volume image_id 
+docker run -v volume_name:/in/docker/path/to/volume image_id 
 ```
 
 ### Bind Mounts
@@ -195,14 +199,14 @@ They are great for persistent and editable data, for example the **source code**
 
 - can be reused for the same container accross restarts
 
-- created when running a container :
+- created when running a container (Add *:ro* to make sure the container cannot modify those files) :
 ```
-docker run -v "/path/to/source/code:/app" image_id 
+docker run -v "/path/to/source/code:/in/docker/path/to/app:ro" image_id 
 ```
 
 - **IMPORTANT** : in order to not override files such as *node_modules*, you need to add an *anonymous volume* to *node_modules*
 ```
-docker run -v "/path/to/source/code:/app" -v /path/to/node_modules image_id 
+docker run -v "/path/to/source/code:/in/docker/path/to/app" -v /in/docker/path/to/node_modules image_id 
 ```
 
 - shortcuts macOS / Linux: 
@@ -220,4 +224,48 @@ docker run -v "/path/to/source/code:/app" -v /path/to/node_modules image_id
 -v ${pwd}:/app
 ```
 
+### Environment Variables
+They need to be givent a default value in the docker file with then ENV instruction
+
+- run a container with an environment variable
+```
+docker run --env PORT=8000 image_id 
+docker run -e VAR1=xxxx -e VAR2=yyyy image_id 
+```
+
+- You can also set up a .env file containing the variables
+```
+PORT=8000
+```
+and run
+```
+docker run --env-file /path/to/.env image_id
+```
+
+### Arguments
+They can only be used inside the dockerfile
+
+- run a container with an argument
+```
+docker run --build-arg MY_ARG=3 image_id
+```
+
 ## Networks
+They facilitate inter container communication. They need to be created beforehand.
+
+- inside a network, you can talk to other containers by simply mentionning their names
+
+- get the ip address of a container
+```
+docker container inspect container_id
+```
+
+- create a network
+```
+docker network create my_network
+```
+
+- run a container inside a network
+```
+docker run --network my_network image_id
+```

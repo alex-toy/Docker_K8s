@@ -2,10 +2,8 @@ docker build -t feedback_node .
 
 docker run -p 3000:80 --name feedback_app -d --rm -v feedback_volume:/app/feedback feedback_node
 
-docker run -p 3000:80 --name feedback_app -d --rm -v feedback_volume:/app/feedback -v "%cd%":/app -v /app/node_modules feedback_node
+docker run -p 3000:8000 --name feedback_app -d --rm -v feedback_volume:/app/feedback -v ${pwd}:/app -v /app/node_modules --env PORT=8000 feedback_node
 
-docker run -p 3000:80 --name feedback_app -d --rm -v feedback_volume:/app/feedback -v ${pwd}:/app -v /app/node_modules feedback_node
-
-docker run -p 3000:80 --name feedback_app -d --rm -v feedback_volume:/app/feedback -v ${pwd}:/app feedback_node
+docker run -p 3000:80 --name feedback_app -d --rm -v feedback_volume:/app/feedback -v ${pwd}/data-volumes-app:/app -v /app/temp -v /app/node_modules feedback_node
 
 

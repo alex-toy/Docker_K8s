@@ -8,7 +8,11 @@ RUN npm install
 
 COPY . .
 
-EXPOSE 80
+ARG MY_ARG=3
+
+ENV PORT 80
+
+EXPOSE $PORT
 
 # VOLUME ["/app/feedback"] # create an anonymous volume
 
