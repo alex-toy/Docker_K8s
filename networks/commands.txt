@@ -2,6 +2,14 @@ docker build -t network_app .
 
 docker network create my_network
 
-docker run --name network_app --network my_network -e PORT=3000 -p 3000:3000 -v ${pwd}:/app -v /app/node_modules network_app 
+docker run -d --name mongodb --network host mongo
+docker run -d --name network_app --network host -e PORT=3000 -p 3000:3000 -v ${pwd}:/app -v /app/node_modules network_app 
 
 docker run -d --name mongodb --network my_network mongo
+docker run -d --name network_app --network container:mongodb -e PORT=3000 -p 3000:3000 -v ${pwd}:/app -v /app/node_modules network_app 
+
+docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' redis
+
+
+docker run -d --name network_app --network my_network -e PORT=3000 -p 3000:3000 -v ${PWD}:/app -v /app/node_modules network_app
+

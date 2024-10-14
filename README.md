@@ -256,9 +256,19 @@ docker run --build-arg MY_ARG=3 image_id
 ```
 
 ## Networks
-They facilitate inter container communication. They need to be created beforehand.
+They facilitate inter container communication. They need to be created beforehand. By default a container is inside **Bridge**.
 
-- inside a network, you can talk to other containers by simply mentionning their names
+Inside a network, you can talk to other containers by simply mentionning their names.
+
+### Main Types
+
+- Bridge
+
+- User-defined Bridge : containers can ping each other by name
+
+
+
+### Main Commands
 
 - get the ip address of a container
 ```
@@ -273,4 +283,20 @@ docker network create my_network
 - run a container inside a network
 ```
 docker run --network my_network image_id
+```
+
+- find a container's ip address
+```
+docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' container_id
+```
+
+- attach a container to localhost
+```
+docker run image_id --bind 127.0.0.1
+```
+
+- attach a container to another container's networking stack directly
+```
+docker run --name container_1 image_id_1
+docker run --name container_2 --network container:container_1 image_id_2
 ```
