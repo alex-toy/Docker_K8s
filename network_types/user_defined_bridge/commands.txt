@@ -1,0 +1,21 @@
+docker network create user_defined_bridge
+
+docker build -t ubuntu .
+
+docker run -itd --name c1 --network user_defined_bridge ubuntu
+docker run -itd --name c2 --network user_defined_bridge ubuntu
+
+# get the containers' ip addresses :
+docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' container_id
+
+
+# ping containers by name :
+
+docker exec -it c1 /bin/bash
+ping c2
+
+docker exec -it c2 /bin/bash
+ping c1
+
+
+

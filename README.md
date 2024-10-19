@@ -264,7 +264,14 @@ Inside a network, you can talk to other containers by simply mentionning their n
 
 - **Bridge**
 
-- **User-defined Bridge** : containers can ping each other by name
+- **Host** : the container is "integrated" into the host. He shares the same ip address with the host. You don't have to export any ports.
+```
+docker run --network host image_id
+```
+
+- **User-defined Bridge** : containers can ping each other by name. They are isolated from the outside world (not pingable)
+
+- **MCVLAN** : containers are directy connected to the physical network. They are connected to the switch your host is connected to and have their own ip address. It's just like they were virtual machines in you local network.
 
 
 

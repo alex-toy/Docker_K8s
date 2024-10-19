@@ -1,0 +1,5 @@
+docker build -t ubuntu .
+
+# This will fail if both containers try to use port 80
+docker run -itd --network host --name c1 -p 80:80 ubuntu
+docker run -itd --network host --name c2 -p 80:80 ubuntu

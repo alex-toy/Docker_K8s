@@ -1,0 +1,24 @@
+# get subnet :
+ip a | grep -P '^\s*inet\s+'
+
+# get subnet :
+ip route | grep default
+
+docker network create -d macvlan --subnet 172.21.0.0/20 --gateway 172.21.0.1 --ip-range 172.21.10.0/24 \
+--aux-address 'host=172.21.10.0' -o parent=eth0 my_macvlan
+
+# create a new macvlan interface on the host :
+ip link add my_macvlan_interface link eth0 type macvlan  mode bridge
+
+# make sure the ip address you provide is unique in your local network
+docker run -d --name c1 --network my_macvlan --ip 172.21.10.10 ubuntu
+docker run -d --name c2 --network my_macvlan --ip 172.21.10.11 ubuntu
+
+
+# ping containers :
+
+docker exec -it c1 /bin/bash
+ping 172.20.10.11
+
+docker exec -it c2 /bin/bash
+ping c172.20.10.10
