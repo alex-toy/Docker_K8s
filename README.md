@@ -262,13 +262,18 @@ Inside a network, you can talk to other containers by simply mentionning their n
 
 ### Main Types
 
-- Bridge
+- **Bridge**
 
-- User-defined Bridge : containers can ping each other by name
+- **User-defined Bridge** : containers can ping each other by name
 
 
 
 ### Main Commands
+
+- get all networks
+```
+docker network ls
+```
 
 - get the ip address of a container
 ```
